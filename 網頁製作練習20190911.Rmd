@@ -1,0 +1,74 @@
+---
+title: "網頁製作20190911"
+author: "Joey"
+date: "2019年9月11日"
+output: html_document
+params:
+  speaker: "Tom"
+  speechContent: "職業介紹"
+  speakerImage: "https://www.ntpu.edu.tw/admin/a3/files/a3_photo/20190805162930.jpg"
+---
+
+
+```{r setup, include=FALSE}
+speaker <- "Claire"
+speechContent <- "職業"
+speakImage <- "assets/"
+readLines("index.html", encoding = "UTF-8") ->indexContent
+
+library(stringr)
+str_replace(indexContent, "_Speaker_", speaker)
+str_replace_all(
+  indexContent,
+  c("_Speaker_" = speaker,
+    "speechContent_" = speechContent
+    )
+) ->newindexContent
+
+writeLines(newindexContent, "newindex.html", useBytes = TRUE)
+```
+
+```{r}
+Sys.setlocale(category = "LC_ALL", locale = "UTF-8")
+# params$speaker
+# params$speechContent
+# params$speakerImage
+# speaker <- "Claire"
+# speechContent <- "分享工作。。。。。"
+# speakerImage <- "assets/img/claire.jpg"
+# 讀入html檔
+readLines("index.html", encoding = "UTF-8") -> indexContent
+# 把要取代的關鍵字取代掉
+library(stringr)
+#str_replace(indexContent,"_SPEAKER_",speaker)
+str_replace_all(
+  indexContent,
+  c(
+    "_Speaker_"=params$speaker,
+    "_speechContent_"=params$speechContent,
+    "assets/img/intro.jpg"=params$speakerImage
+  )
+) -> newindexContent
+# 生成新網頁
+writeLines(newindexContent,
+           "newindex.html", useBytes = TRUE )
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
